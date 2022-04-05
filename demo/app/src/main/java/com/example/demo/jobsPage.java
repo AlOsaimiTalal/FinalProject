@@ -17,7 +17,6 @@ public class jobsPage extends AppCompatActivity {
         ImageView recJJ = findViewById(R.id.buttonRecB);
         ImageView qoutesJJ = findViewById(R.id.QuotesB);
 
-getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         recJJ.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

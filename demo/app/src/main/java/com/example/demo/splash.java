@@ -2,6 +2,8 @@ package com.example.demo;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,62 +13,66 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-public class splash extends AppCompatActivity {
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_action, menu);
-        return true;
-    }
+public class splash extends AppCompatActivity {
+    FragmentManager fragmentmanager;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        getSupportActionBar().hide();
+
+        BottomNavigationView bottomnav =findViewById(R.id.bottomNavigation);
+
+
+
+        fragmentmanager =getSupportFragmentManager();
+        Fragment frg = new HomeFragment();
+        fragmentmanager.beginTransaction().replace(R.id.FragmentContainer,frg).commit();
 
 
 
 
 
 
-        Button gatesBooks= findViewById(R.id.button2);
-        Button jobsBooks= findViewById(R.id.button);
 
-        gatesBooks.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent gatesLib = new Intent(splash.this,quotesORbooks_bill.class);
-                startActivity(gatesLib);
-            }
-        });
-
-        jobsBooks.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent jobsLib = new Intent(splash.this,jobsPage.class);
-                startActivity(jobsLib);
-            }
-        });
-
-
+       bottomnav.setOnNavigationItemSelectedListener(navlistiner);
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.menu1:
-            case R.id.menu2:
-            case R.id.menu3:
-            case R.id.menu4:
+    private BottomNavigationView.OnNavigationItemSelectedListener navlistiner =
+            new BottomNavigationView.OnNavigationItemSelectedListener(){
+       public boolean onNavigationItemSelected(MenuItem item){
+           Fragment selectedFragment = null;
 
-                return true;
-            default:return super.onOptionsItemSelected(item);
-        }
+           switch (item.getItemId()){
+               case R.id.homeScreen:
+                   selectedFragment = new HomeFragment();
+                   fragmentmanager.beginTransaction().replace(R.id.FragmentContainer,
+                           selectedFragment).commit();
+                   return true;
+
+               case R.id.whyScreen:
+                   selectedFragment = new WhyFragment();
+                   fragmentmanager.beginTransaction().replace(R.id.FragmentContainer,
+                           selectedFragment).commit();
+                   return true;
+
+               case R.id.tipsScreen:
+                   selectedFragment = new TipsFragment();
+                   fragmentmanager.beginTransaction().replace(R.id.FragmentContainer,
+                           selectedFragment).commit();
+                   return true;
+
+           }
 
 
+           return false;
+       }
+            };
 
-    }
 }
